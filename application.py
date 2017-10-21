@@ -3,7 +3,7 @@ import config
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api
-from app.videos.controller import Videos
+from app.videos.resources import Videos
 
 
 flask_app = Flask(__name__)
