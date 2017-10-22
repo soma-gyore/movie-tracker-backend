@@ -106,5 +106,14 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+# nginx folder
+nginx/
+
+# production docker-compose file
+prod-docker-compose.yml
+
+# file contains docker run commands
+docker-run-commands.txt
+
 # migrations folder (one can generate with python manage.py db init)
 migrations
