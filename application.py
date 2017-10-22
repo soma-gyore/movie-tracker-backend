@@ -9,8 +9,8 @@ from app.videos.resources import Videos
 flask_app = Flask(__name__)
 
 config.configure_app(flask_app)
-api = Api(flask_app)
-api.add_resource(Videos, '/')
+api = Api(flask_app, catch_all_404s=True)
+api.add_resource(Videos, '/videos')
 db = SQLAlchemy(flask_app)
 
 from app.authentication.model import User
