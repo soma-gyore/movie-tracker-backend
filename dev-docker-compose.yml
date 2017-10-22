@@ -1,0 +1,27 @@
+version: '2.1'
+
+services:
+  db_movie_tracker:
+    container_name: db_movie_tracker
+    image: mysql:5.7
+    restart: on-failure
+    environment:
+      - MYSQL_DATABASE=test_db
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=admin
+      - MYSQL_ROOT_PASSWORD=root
+    healthcheck:
+      test: "/usr/bin/mysql --user=root --password=root --execute \"SHOW DATABASES;\""
+
+  app_movie_tracker:
+    container_name: app_movie_tracker
+    depends_on:
+      db_movie_tracker:
+        condition: service_healthy
+    build: .
+    environment:
+      - FLASK_CONFIGURATION=development
+    volumes:
+      - ../movie-tracker:/opt/movie-tracker
+    ports:
+      - "5000:5000"
