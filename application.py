@@ -10,7 +10,7 @@ flask_app = Flask(__name__)
 
 config.configure_app(flask_app)
 api = Api(flask_app)
-api.add_resource(Videos, '/')
+api.add_resource(Videos, '/videos')
 db = SQLAlchemy(flask_app)
 
 from app.authentication.model import User
