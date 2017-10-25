@@ -18,9 +18,13 @@ class UserController(object):
     def is_username_password_valid(self, username, password):
         from application import bcrypt
         fetched_user_obj = self.get_user_by_username(username)
-        if bcrypt.check_password_hash(fetched_user_obj.password, password):
-            return True
-        return False
+
+        return bcrypt.check_password_hash(fetched_user_obj.password, password)
+
+    @staticmethod
+    def is_api_key_valid(api_key):
+        from .model import User
+        return User.filter_by(api_key=api_key).exists().scalar()
 
     @staticmethod
     def create_user(user_dict):

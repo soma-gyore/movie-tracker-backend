@@ -16,3 +16,4 @@ class User(db.Model):
         self.username = username
         self.password = password
         self.api_key = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(32))
+
