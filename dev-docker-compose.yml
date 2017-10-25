@@ -20,6 +20,7 @@ services:
         condition: service_healthy
     build: .
     environment:
+      - MYSQL_HOST=db_movie_tracker
       - FLASK_CONFIGURATION=development
     volumes:
       - ../movie-tracker:/opt/movie-tracker
