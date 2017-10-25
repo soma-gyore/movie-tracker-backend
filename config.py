@@ -11,6 +11,13 @@ class Config(object):
 class DevelopmentConfig(Config):
     """Configurations for Development."""
     DEBUG = True
+    SECRET_KEY = 'dev'
+    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://{}:{}@{}/{}".format(
+        os.getenv('MYSQL_USER', 'admin'),
+        os.getenv('MYSQL_PASSWORD', 'admin'),
+        os.getenv('MYSQL_HOST', 'localhost'),
+        os.getenv('MYSQL_SCHEMA', 'test_db')
+    )
 
 
 class TestConfig(Config):
@@ -35,4 +42,5 @@ app_config = {
 def configure_app(app):
     config_name = os.getenv('FLASK_CONFIGURATION', 'development')
     app.config.from_object(app_config[config_name])
-    app.config.from_pyfile('instance/config.py')
+    if config_name != 'development':
+        app.config.from_pyfile('instance/config.py')
