@@ -20,6 +20,7 @@ api = Api(flask_app, catch_all_404s=True)
 api.add_resource(Videos, '/videos')
 api.add_resource(Login, '/login')
 api.add_resource(RefreshToken, '/refresh-token')
+api.add_resource(Register, '/register')
 
 import app.authentication.model
 import app.videos.model

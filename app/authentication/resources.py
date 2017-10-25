@@ -38,7 +38,8 @@ class Login(Resource):
             self.response_creator.create_response(tokens_json)
             return self.response_creator.response_obj
 
-        return self.response_creator.unauthorized()
+        self.response_creator.unauthorized()
+        return self.response_creator.response_obj
 
 
 class RefreshToken(Resource):
