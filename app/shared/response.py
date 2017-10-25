@@ -1,4 +1,4 @@
-from flask import Response
+from flask import Response, json
 
 
 class ResponseCreator(object):
@@ -9,5 +9,10 @@ class ResponseCreator(object):
         self.response_obj = Response(response=message, status=status_code, mimetype=mimetype)
 
     def ok(self):
-        self.create_response("OK")
+        ok_message_json = json.dumps({"message": "OK"})
+        self.create_response(ok_message_json)
         return self.response_obj
+
+    def unauthorized(self):
+        unauthorized_message_json = json.dumps({"message": "Unauthorized"})
+        self.create_response(unauthorized_message_json, 401)

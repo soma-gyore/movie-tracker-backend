@@ -26,3 +26,11 @@ class UserController(object):
         if fetched_user_obj.password == password:
             return True
         return False
+
+    @staticmethod
+    def create_user(user_dict):
+        from .model import User
+        from application import db
+        new_user_obj = User(user_dict['username'], user_dict['password'])
+        db.session.add(new_user_obj)
+        db.session.commit()
