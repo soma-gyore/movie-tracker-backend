@@ -11,4 +11,3 @@ RUN pip install -r requirements.txt
 CMD if [ ! -d migrations ]; then python3 manage.py db init; python3 manage.py db migrate; fi; \
     python3 manage.py db upgrade; \
     gunicorn --config gunicorn_config.py --reload wsgi:flask_app
-

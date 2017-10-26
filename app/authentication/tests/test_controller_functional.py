@@ -1,3 +1,5 @@
+import time
+
 from app.authentication.controller import UserController
 from app.authentication.model import User
 
@@ -8,6 +10,7 @@ class TestUserController(object):
         cls.user_controller = UserController()
 
     def test_create_user_and_get_user(self):
+        time.sleep(2)
         self.user_controller.delete_every_user()
         test_user = User('testuser', 'testpw')
 

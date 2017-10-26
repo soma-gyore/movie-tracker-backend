@@ -12,6 +12,8 @@ services:
       - MYSQL_ROOT_PASSWORD=root
     healthcheck:
       test: "/usr/bin/mysql --user=root --password=root --execute \"SHOW DATABASES;\""
+    ports:
+      - "3306:3306"
 
   app_movie_tracker:
     container_name: app_movie_tracker

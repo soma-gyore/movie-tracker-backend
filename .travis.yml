@@ -1,11 +1,14 @@
 language: python
+sudo: true
+python:
+  - "3.5"
 
 branches:
   only:
   - master
 
 env:
-  - DOCKER_COMPOSE_VERSION=1.4.2
+  - DOCKER_COMPOSE_VERSION=1.15.0
 
 before_install:
   - sudo rm /usr/local/bin/docker-compose
@@ -17,10 +20,11 @@ install:
   - pip install -r requirements.txt
 
 before_script:
-  - ./run 'docker-compose -f dev-docker-compose.yml up --build -d'
+  - sudo /etc/init.d/mysql stop
+  - docker-compose up -d
 
 script:
-  - pytest --verbose
+  - pytest --verbose --pyargs app/authentication/tests/ --pyargs app/shared/tests/
 
 after_script:
-  - docker-compose -f dev-docker-compose.yml down
+  - docker-compose down
