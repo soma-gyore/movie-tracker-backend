@@ -1,3 +1,4 @@
+import flask
 from flask import json, request
 from flask_restful import Resource
 from app.shared.response import ResponseCreator
@@ -26,10 +27,26 @@ class User(Resource):
         self.response_creator = ResponseCreator()
 
     @errorhandler.internal_server_error
-    # @errorhandler.user_does_not_exist
-    def delete(self, user_id):
-        self.user_controller.delete_user(user_id)
+    @errorhandler.user_does_not_exist
+    def delete(self, username):
+        self.user_controller.delete_user(username)
         return self.response_creator.ok()
+
+
+class Users(Resource):
+    def __init__(self):
+        self.user_controller = UserController()
+        self.response_creator = ResponseCreator()
+
+    @errorhandler.internal_server_error
+    @errorhandler.api_key_does_not_exist
+    def get(self):
+        api_key = flask.request.args['api-key']
+        username = self.user_controller.get_user_name_by_api_key(api_key)
+        username_dict = {
+            "username": username
+        }
+        return self.response_creator.create_response(json.dumps(username_dict))
 
 
 class Login(Resource):
@@ -47,7 +64,7 @@ class Login(Resource):
         return tokens_dict
 
     @errorhandler.internal_server_error
-    @errorhandler.user_does_not_exist
+    @errorhandler.unauthorized
     def post(self):
         request_body_dict = request.json
 

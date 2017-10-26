@@ -24,7 +24,13 @@ class UserController(object):
     @staticmethod
     def is_api_key_valid(api_key):
         from .model import User
-        return User.filter_by(api_key=api_key).exists().scalar()
+        return User.query.filter_by(api_key=api_key).exists().scalar()
+
+    @staticmethod
+    def get_user_name_by_api_key(api_key):
+        from .model import User
+        user_object = User.query.filter_by(api_key=api_key).first()
+        return user_object.username
 
     @staticmethod
     def create_user(user_dict):
@@ -40,6 +46,8 @@ class UserController(object):
         db.session.commit()
 
     @staticmethod
-    def delete_user(user_id):
+    def delete_user(username):
         from .model import User
-        User.query.filter_by(id=user_id).delete()
+        from application import db
+        User.query.filter_by(username=username).delete()
+        db.session.commit()

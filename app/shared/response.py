@@ -29,7 +29,17 @@ class ResponseCreator(object):
         self.create_response(internal_server_error_message_json, 500)
         return self.response_obj
 
-    def user_already_exist(self):
-        internal_server_error_message_json = json.dumps({"message": "User already exist"})
-        self.create_response(internal_server_error_message_json, 409)
+    def user_already_exists(self):
+        user_already_exist_message_json = json.dumps({"message": "User already exists"})
+        self.create_response(user_already_exist_message_json, 409)
+        return self.response_obj
+
+    def user_does_not_exist(self):
+        user_does_not_exist_message_json = json.dumps({"message": "User does not exist"})
+        self.create_response(user_does_not_exist_message_json, 404)
+        return self.response_obj
+
+    def api_key_does_not_exist(self):
+        api_key_does_not_exist_message_json = json.dumps({"message": "Api key does not exist"})
+        self.create_response(api_key_does_not_exist_message_json, 404)
         return self.response_obj
