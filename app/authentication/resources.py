@@ -79,6 +79,47 @@ class Login(Resource):
         return self.response_creator.unauthorized()
 
 
+class LogoutAccess(Resource):
+    decorators = [flask_jwt_extended.jwt_required]
+
+    def __init__(self):
+        self.response_creator = ResponseCreator()
+
+    def delete(self):
+        from application import blacklist
+        jti = flask_jwt_extended.get_raw_jwt()['jti']
+        blacklist.add(jti)
+
+        message_dict = {
+            "msg": "Successfully logged out access"
+        }
+
+        message_json = json.dumps(message_dict)
+
+        return self.response_creator.create_response(message_json)
+
+
+class LogoutRefresh(Resource):
+
+    decorators = [flask_jwt_extended.jwt_refresh_token_required]
+
+    def __init__(self):
+        self.response_creator = ResponseCreator()
+
+    def delete(self):
+        from application import blacklist
+        jti = flask_jwt_extended.get_raw_jwt()['jti']
+        blacklist.add(jti)
+
+        message_dict = {
+            "msg": "Successfully logged out refresh"
+        }
+
+        message_json = json.dumps(message_dict)
+
+        return self.response_creator.create_response(message_json)
+
+
 class RefreshToken(Resource):
     decorators = [flask_jwt_extended.jwt_refresh_token_required]
 
@@ -86,9 +127,8 @@ class RefreshToken(Resource):
         self.response_creator = ResponseCreator()
 
     def get(self):
-        response_creator = ResponseCreator()
         current_user = flask_jwt_extended.get_jwt_identity()
         ret = {
             'accessToken': flask_jwt_extended.create_access_token(identity=current_user)
         }
-        return response_creator.create_response(json.dumps(ret))
+        return self.response_creator.create_response(json.dumps(ret))

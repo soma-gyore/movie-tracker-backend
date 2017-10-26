@@ -22,9 +22,23 @@ class UserController(object):
         return bcrypt.check_password_hash(fetched_user_obj.password, password)
 
     @staticmethod
+    def get_number_of_users():
+        from .model import User
+        return User.query.count()
+
+    @staticmethod
+    def delete_every_user():
+        from application import db
+        from .model import User
+        User.query.delete()
+        db.session.commit()
+
+    @staticmethod
     def is_api_key_valid(api_key):
         from .model import User
-        return User.query.filter_by(api_key=api_key).exists().scalar()
+        from application import db
+        exists = db.session.query(User.id).filter_by(api_key=api_key).scalar() is not None
+        return exists
 
     @staticmethod
     def get_user_name_by_api_key(api_key):

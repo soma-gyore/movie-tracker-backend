@@ -1,4 +1,3 @@
-
 try:
     import mock
 except ImportError:
@@ -8,7 +7,7 @@ from app.authentication.controller import UserController
 from app.authentication.model import User
 
 
-class UnitTestUserController(object):
+class TestUserController(object):
     @classmethod
     def setup_class(cls):
         cls.user_controller = UserController()
@@ -34,15 +33,6 @@ class UnitTestUserController(object):
         assert self.user_controller.user_dict == user_dict
 
 
-class FunctionalTestUserController(object):
-    @classmethod
-    def setup_class(cls):
-        cls.user_controller = UserController()
 
-    def test_create_user(self):
-        test_user = {
-            'username': 'testuser', 'password': 'testpw'
-        }
-        self.user_controller.create_user(test_user)
 
-        self.user_controller.get_user_by_username('test_user')
+
