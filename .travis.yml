@@ -7,12 +7,13 @@ branches:
 python:
   - "3.5"
 
+before_install:
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+
 install:
-  - curl -sSL "https://get.docker.com/gpg" | sudo -E apt-key add -
-  - sudo apt-get update -o Dpkg::Options::="--force-confold" --assume-yes install docker-engine
-  - docker version
-  - sudo pip install docker-compose
-  - docker-compose version
   - pip install -r requirements.txt
 
 before_script:
