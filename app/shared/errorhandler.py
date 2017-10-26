@@ -56,7 +56,7 @@ def user_does_not_exist(func):
         from app.authentication.model import User
         response_creator = ResponseCreator()
 
-        username = kwargs['username']
+        username = flask.request.args['username']
 
         user_object = User.query.filter_by(username=username).first()
 

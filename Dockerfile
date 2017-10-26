@@ -1,6 +1,6 @@
 FROM python:3.6-slim
 
-EXPOSE 5000
+EXPOSE 5001
 
 COPY ./requirements.txt /opt/movie-tracker/requirements.txt
 
