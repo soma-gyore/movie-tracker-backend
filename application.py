@@ -7,7 +7,7 @@ from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api
 from app.videos.resources import Videos
-from app.authentication.resources import Login, Register, RefreshToken
+from app.authentication.resources import Login, Register, RefreshToken, User
 
 flask_app = Flask(__name__)
 bcrypt = Bcrypt(flask_app)
@@ -21,6 +21,7 @@ api.add_resource(Videos, '/videos')
 api.add_resource(Login, '/login')
 api.add_resource(RefreshToken, '/refresh-token')
 api.add_resource(Register, '/register')
+api.add_resource(User, '/user/<int:user_id>')
 
 import app.authentication.model
 import app.videos.model

@@ -20,6 +20,18 @@ class Register(Resource):
         return self.response_creator.created()
 
 
+class User(Resource):
+    def __init__(self):
+        self.user_controller = UserController()
+        self.response_creator = ResponseCreator()
+
+    @errorhandler.internal_server_error
+    # @errorhandler.user_does_not_exist
+    def delete(self, user_id):
+        self.user_controller.delete_user(user_id)
+        return self.response_creator.ok()
+
+
 class Login(Resource):
     def __init__(self):
         self.user_controller = UserController()

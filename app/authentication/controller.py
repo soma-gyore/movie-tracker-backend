@@ -38,3 +38,8 @@ class UserController(object):
         new_user_obj = User(username, password_hash)
         db.session.add(new_user_obj)
         db.session.commit()
+
+    @staticmethod
+    def delete_user(user_id):
+        from .model import User
+        User.query.filter_by(id=user_id).delete()
