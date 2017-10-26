@@ -4,8 +4,8 @@ branches:
   only:
   - master
 
-python:
-  - "3.5"
+env:
+  - DOCKER_COMPOSE_VERSION=1.4.2
 
 before_install:
   - sudo rm /usr/local/bin/docker-compose
@@ -17,7 +17,7 @@ install:
   - pip install -r requirements.txt
 
 before_script:
-  - docker-compose -f dev-docker-compose.yml up --build -d
+  - ./run 'docker-compose -f dev-docker-compose.yml up --build -d'
 
 script:
   - pytest --verbose
