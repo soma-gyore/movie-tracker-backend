@@ -1,3 +1,4 @@
+import datetime
 import os
 
 
@@ -18,17 +19,22 @@ class DevelopmentConfig(Config):
         os.getenv('MYSQL_HOST', 'localhost'),
         os.getenv('MYSQL_SCHEMA', 'test_db')
     )
+    JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(days=1)
+    JWT_REFRESH_TOKEN_EXPIRES = datetime.timedelta(days=7)
 
 
 class TestConfig(Config):
     """Configurations for Testing, with a separate test database."""
     DEBUG = True
     TESTING = True
+    JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(minutes=15)
+    JWT_REFRESH_TOKEN_EXPIRES = datetime.timedelta(days=14)
 
 
 class ProductionConfig(Config):
     """Configurations for Production."""
-    pass
+    JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(minutes=15)
+    JWT_REFRESH_TOKEN_EXPIRES = datetime.timedelta(days=14)
 
 
 app_config = {
