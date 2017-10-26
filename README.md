@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/docoprusta/movie-tracker.svg?branch=master)](https://https://travis-ci.org/docoprusta/movie-tracker)
+
 # movie-tracker
 A movie tracker application works with vlc extension  
 
