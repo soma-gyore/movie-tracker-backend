@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/docoprusta/movie-tracker.svg?branch=master)](https://https://travis-ci.org/docoprusta/movie-tracker)
+[![Coverage Status](https://coveralls.io/repos/github/docoprusta/movie-tracker/badge.svg?branch=master)](https://coveralls.io/github/docoprusta/movie-tracker?branch=master)
 
 # movie-tracker
 A movie tracker application works with vlc extension  
