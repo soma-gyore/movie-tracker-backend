@@ -63,6 +63,17 @@ class TestResponse(object):
         assert response_obj.status_code == 401
         assert response_obj.mimetype == 'application/json'
 
+    def test_invalid_api_key(self):
+        message_dict = {
+            "message": "Invalid API key"
+        }
+
+        response_obj = self.response_creator.invalid_api_key()
+
+        assert response_obj.response == self.create_message_json_list(message_dict)
+        assert response_obj.status_code == 401
+        assert response_obj.mimetype == 'application/json'
+
     def test_internal_server_error(self):
         message_dict = {
             "message": "Internal server error"
