@@ -21,31 +21,6 @@ class Register(Resource):
         return self.response_creator.created()
 
 
-class Users(Resource):
-    decorators = [flask_jwt_extended.jwt_required]
-
-    def __init__(self):
-        self.user_controller = UserController()
-        self.response_creator = ResponseCreator()
-
-    @errorhandler.internal_server_error
-    @errorhandler.api_key_does_not_exist
-    def get(self):
-        api_key = flask.request.args['api-key']
-        username = self.user_controller.get_user_name_by_api_key(api_key)
-        username_dict = {
-            "username": username
-        }
-        return self.response_creator.create_response(json.dumps(username_dict))
-
-    @errorhandler.internal_server_error
-    @errorhandler.user_does_not_exist
-    def delete(self):
-        username = flask.request.args['username']
-        self.user_controller.delete_user(username)
-        return self.response_creator.ok()
-
-
 class Login(Resource):
     def __init__(self):
         self.user_controller = UserController()
@@ -115,6 +90,21 @@ class LogoutRefresh(Resource):
         message_json = json.dumps(message_dict)
 
         return self.response_creator.create_response(message_json)
+
+
+class Account(Resource):
+    decorators = [flask_jwt_extended.jwt_required]
+
+    def __init__(self):
+        self.user_controller = UserController()
+        self.response_creator = ResponseCreator()
+
+    @errorhandler.internal_server_error
+    @errorhandler.user_does_not_exist
+    def delete(self):
+        username = flask_jwt_extended.get_jwt_identity()
+        self.user_controller.delete_user(username)
+        return self.response_creator.ok()
 
 
 class RefreshToken(Resource):
