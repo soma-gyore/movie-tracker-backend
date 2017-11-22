@@ -1,5 +1,7 @@
 import time
 
+import os
+
 from app.authentication.controller import UserController
 from app.authentication.model import User
 
@@ -101,6 +103,23 @@ class TestUserController(object):
         fetched_username = self.user_controller.get_user_name_by_api_key(api_key)
 
         assert fetched_user.username == fetched_username
+
+    def test_get_user_by_api_key(self):
+        self.user_controller.delete_every_user()
+
+        test_user_dict = {
+            'username': 'testuser', 'password': 'testpw'
+        }
+
+        self.user_controller.create_user(test_user_dict)
+
+        fetched_user_by_username = self.user_controller.get_user_by_username('testuser')
+
+        api_key = fetched_user_by_username.api_key
+
+        fetched_user_by_api_key = self.user_controller.get_user_by_api_key(api_key)
+
+        assert fetched_user_by_api_key == fetched_user_by_username
 
     def test_delete_user(self):
         self.user_controller.delete_every_user()
