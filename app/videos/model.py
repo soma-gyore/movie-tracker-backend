@@ -3,8 +3,8 @@ from application import db
 
 users_videos = db.Table(
     'users_videos',
-    db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
-    db.Column('video_id', db.Integer, db.ForeignKey('videos.id'))
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id', ondelete="CASCADE")),
+    db.Column('video_id', db.Integer, db.ForeignKey('videos.id', ondelete="CASCADE"))
 )
 
 
