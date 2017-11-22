@@ -23,7 +23,7 @@ services:
     build: .
     environment:
       - MYSQL_HOST=db_movie_tracker
-      - FLASK_CONFIGURATION=development
+      - FLASK_CONFIGURATION=testing
     volumes:
       - ../movie-tracker:/opt/movie-tracker
     ports:
