@@ -1,4 +1,5 @@
 import flask
+import flask_jwt_extended
 from flask import json, request
 
 
@@ -11,7 +12,8 @@ def internal_server_error(func):
         try:
             User.query.count()
             return func(*args, **kwargs)
-        except:
+        except Exception as e:
+            print(e)
             return response_creator.internal_server_error()
     return func_wrapper
 
@@ -50,13 +52,31 @@ def unauthorized(func):
     return func_wrapper
 
 
+def invalid_api_key(func):
+    def func_wrapper(*args, **kwargs):
+        from app.shared.response import ResponseCreator
+        from app.authentication.controller import UserController
+        response_creator = ResponseCreator()
+
+        api_key = request.headers.get('x-api-key')
+
+        user_controller = UserController()
+
+        if not user_controller.is_api_key_valid(api_key):
+            return response_creator.invalid_api_key()
+
+        return func(*args, **kwargs)
+
+    return func_wrapper
+
+
 def user_does_not_exist(func):
     def func_wrapper(*args, **kwargs):
         from app.shared.response import ResponseCreator
         from app.authentication.model import User
         response_creator = ResponseCreator()
 
-        username = flask.request.args['username']
+        username = flask_jwt_extended.get_jwt_identity()
 
         user_object = User.query.filter_by(username=username).first()
 

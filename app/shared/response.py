@@ -24,6 +24,11 @@ class ResponseCreator(object):
         self.create_response(unauthorized_message_json, 401)
         return self.response_obj
 
+    def invalid_api_key(self):
+        unauthorized_message_json = json.dumps({"message": "Invalid API key"})
+        self.create_response(unauthorized_message_json, 401)
+        return self.response_obj
+
     def internal_server_error(self):
         internal_server_error_message_json = json.dumps({"message": "Internal server error"})
         self.create_response(internal_server_error_message_json, 500)
