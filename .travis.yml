@@ -24,7 +24,9 @@ before_script:
   - docker-compose up -d
 
 script:
-  - pytest --verbose --pyargs app/authentication/tests/ --pyargs app/shared/tests/ --pyargs app/videos/tests/
+  - coverage run --source app -m pytest --verbose --pyargs app/authentication/tests/ --pyargs app/shared/tests/ --pyargs app/videos/tests/
 
+after_success:
+    - coverage report
 after_script:
   - docker-compose down

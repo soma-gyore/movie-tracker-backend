@@ -14,3 +14,5 @@ PyMySQL==0.7.11
 pytest==3.2.3
 pytest-cov==2.5.1
 requests==2.18.1
+coveralls==1.2.0
+python-coveralls==2.9.1
