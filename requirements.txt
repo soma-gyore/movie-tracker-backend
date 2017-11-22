@@ -1,3 +1,5 @@
+python-dateutil==2.6.1
+SQLAlchemy==1.1.15
 alembic==0.9.6
 Flask==0.12.2
 Flask-Bcrypt==0.7.1
