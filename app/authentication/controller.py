@@ -47,6 +47,12 @@ class UserController(object):
         return user_object.username
 
     @staticmethod
+    def get_user_by_api_key(api_key):
+        from .model import User
+        user_object = User.query.filter_by(api_key=api_key).first()
+        return user_object
+
+    @staticmethod
     def create_user(user_dict):
         from .model import User
         from application import db
