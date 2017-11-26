@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/docoprusta/movie-tracker.svg?branch=master)](https://https://travis-ci.org/docoprusta/movie-tracker)
+[![Build Status](https://travis-ci.org/docoprusta/movie-tracker-backend.svg?branch=master)](https://travis-ci.org/docoprusta/movie-tracker-backend.svg?branch=master)
 [![Coverage Status](https://coveralls.io/repos/github/docoprusta/movie-tracker/badge.svg?branch=master&service=github)](https://coveralls.io/github/docoprusta/movie-tracker?branch=master&service=github)
 
 # movie-tracker
