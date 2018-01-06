@@ -121,3 +121,17 @@ class RefreshToken(Resource):
             'accessToken': flask_jwt_extended.create_access_token(identity=current_user)
         }
         return self.response_creator.create_response(json.dumps(ret))
+
+
+class ApiKey(Resource):
+    decorators = [flask_jwt_extended.jwt_required]
+
+    def __init__(self):
+        self.user_controller = UserController()
+        self.response_creator = ResponseCreator()
+
+    @errorhandler.internal_server_error
+    def get(self):
+        current_user = flask_jwt_extended.get_jwt_identity()
+        api_key = self.user_controller.get_api_key_by_username(current_user)
+        return self.response_creator.create_response(json.dumps({"apiKey": api_key}))
