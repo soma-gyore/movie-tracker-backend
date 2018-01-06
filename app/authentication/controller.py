@@ -15,6 +15,11 @@ class UserController(object):
         self.user_object = User.query.filter_by(username=username).first()
         return self.user_object
 
+    def get_api_key_by_username(self, username):
+        from .model import User
+        self.user_object = User.query.filter_by(username=username).first()
+        return self.user_object.api_key
+
     def is_username_password_valid(self, username, password):
         from application import bcrypt
         fetched_user_obj = self.get_user_by_username(username)
