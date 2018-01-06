@@ -52,6 +52,22 @@ def unauthorized(func):
     return func_wrapper
 
 
+def bad_login_or_register_request(func):
+    def func_wrapper(*args, **kwargs):
+        from app.shared.response import ResponseCreator
+
+        response_creator = ResponseCreator()
+
+        request_body_dict = request.json
+
+        if request_body_dict.keys() != {'username', 'password', 'reCaptchaResponse'}:
+            return response_creator.bad_login_or_register_request()
+
+        return func(*args, **kwargs)
+
+    return func_wrapper
+
+
 def invalid_api_key(func):
     def func_wrapper(*args, **kwargs):
         from app.shared.response import ResponseCreator
@@ -67,6 +83,20 @@ def invalid_api_key(func):
 
         return func(*args, **kwargs)
 
+    return func_wrapper
+
+
+def invalid_recaptcha(func):
+    def func_wrapper(*args, **kwargs):
+        from application import recaptcha
+        from app.shared.response import ResponseCreator
+
+        response_creator = ResponseCreator()
+
+        if not recaptcha.verify(response=request.json.get('reCaptchaResponse')):
+            return response_creator.invalid_recaptcha()
+
+        return func(*args, **kwargs)
     return func_wrapper
 
 
