@@ -17,7 +17,8 @@ class TestVideoResources(object):
 
         test_user_dict = {
             "username": "testuser",
-            "password": "testpw"
+            "password": "testpw",
+            "reCaptchaResponse": "asd"
         }
 
         requests.post('http://127.0.0.1:{}/register'.format(cls.PORT), json=test_user_dict)
@@ -52,7 +53,8 @@ class TestVideoResources(object):
     def test_post_ok(self):
         test_user_dict = {
             "username": "testuser2",
-            "password": "testpw2"
+            "password": "testpw2",
+            "reCaptchaResponse": "asd"
         }
 
         requests.post('http://127.0.0.1:{}/register'.format(self.PORT), json=test_user_dict)
@@ -82,16 +84,10 @@ class TestVideoResources(object):
             "duration": 1313
         }
 
-        requests.post('http://127.0.0.1:{}/videos'
+        response_post = requests.post('http://127.0.0.1:{}/videos'
                       .format(self.PORT), json=video_dict, headers={'x-api-key': user_obj.api_key})
 
-        response_get_videos_request = \
-            requests.get('http://127.0.0.1:{}/videos'.format(self.PORT), headers=self.headers)
-
-        fetched_videos = response_get_videos_request.json()
-
-        fetched_videos[0]['closeTimeStamp'] = int(parser.parse(fetched_videos[0].pop('closeDate')).timestamp())
-        assert fetched_videos[0] == video_dict
+        assert response_post.status_code == 200
 
     @classmethod
     def teardown_class(cls):

@@ -48,3 +48,13 @@ class ResponseCreator(object):
         api_key_does_not_exist_message_json = json.dumps({"message": "Api key does not exist"})
         self.create_response(api_key_does_not_exist_message_json, 404)
         return self.response_obj
+
+    def bad_login_or_register_request(self):
+        bad_login_or_register_request_message_json = json.dumps({"message": "Bad request"})
+        self.create_response(bad_login_or_register_request_message_json, 400)
+        return self.response_obj
+
+    def invalid_recaptcha(self):
+        bad_login_or_register_request_message_json = json.dumps({"message": "Invalid recaptcha"})
+        self.create_response(bad_login_or_register_request_message_json, 400)
+        return self.response_obj
