@@ -1,4 +1,3 @@
-import flask
 from flask import json, request
 from flask_restful import Resource
 from app.shared.response import ResponseCreator
@@ -14,6 +13,7 @@ class Register(Resource):
         self.response_creator = ResponseCreator()
 
     @errorhandler.internal_server_error
+    @errorhandler.bad_login_or_register_request
     @errorhandler.user_already_exists
     def post(self):
         request_body_dict = request.json
@@ -35,7 +35,9 @@ class Login(Resource):
 
         return tokens_dict
 
+    @errorhandler.invalid_recaptcha
     @errorhandler.internal_server_error
+    @errorhandler.bad_login_or_register_request
     @errorhandler.unauthorized
     def post(self):
         request_body_dict = request.json
