@@ -25,6 +25,6 @@ services:
       - MYSQL_HOST=db_movie_tracker
       - FLASK_CONFIGURATION=testing
     volumes:
-      - ../movie-tracker:/opt/movie-tracker
+      - ../movie-tracker-backend:/opt/movie-tracker
     ports:
       - "5001:5001"
