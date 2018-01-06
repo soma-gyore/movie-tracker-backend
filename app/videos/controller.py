@@ -1,10 +1,12 @@
 from datetime import datetime
+from .image_scraper import ImageScraper
 
 
 class VideoController(object):
     def __init__(self):
         self.video_object = None
         self.video_dict = {}
+        self.image_scraper = ImageScraper()
 
     def user_object_to_dict(self):
         self.video_dict = {
@@ -15,8 +17,7 @@ class VideoController(object):
             "duration": self.video_object.duration
         }
 
-    @staticmethod
-    def create_video(video_dict, user_obj):
+    def create_video(self, video_dict, user_obj):
         from .model import Video
         from application import db
 
@@ -24,21 +25,27 @@ class VideoController(object):
             datetime.fromtimestamp(video_dict["closeTimeStamp"]),
             video_dict["title"],
             video_dict["lastPosition"],
-            video_dict["duration"]
+            video_dict["duration"],
+            self.image_scraper.get_first_hit(video_dict["title"])
         )
 
-        new_video_obj.children.append(user_obj)
-
-        db.session.add(new_video_obj)
-        db.session.commit()
+        try:
+            new_video_obj.children.append(user_obj)
+            db.session.add(new_video_obj)
+            db.session.commit()
+        except:
+            print("Fatal error")
 
     @staticmethod
     def delete_videos():
         from .model import Video
         from application import db
 
-        Video.query.delete()
-        db.session.commit()
+        try:
+            Video.query.delete()
+            db.session.commit()
+        except:
+            print("Fatal error")
 
     @staticmethod
     def video_obj_to_dict(video_obj):
@@ -54,5 +61,9 @@ class VideoController(object):
     def get_videos_by_username(username):
         from .model import Video
         from app.authentication.model import User
-        video_objs = Video.query.filter(Video.children).filter(User.username == username).all()
-        return [VideoController.video_obj_to_dict(video_obj) for video_obj in video_objs]
+
+        try:
+            video_objs = Video.query.filter(Video.children).filter(User.username == username).all()
+            return [VideoController.video_obj_to_dict(video_obj) for video_obj in video_objs]
+        except:
+            print("Fatal error")
