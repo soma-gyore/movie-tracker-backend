@@ -10,7 +10,6 @@ from app.authentication.controller import UserController
 
 
 class TestAuthenticationResources(object):
-
     PORT = 5001
 
     @classmethod
@@ -20,7 +19,8 @@ class TestAuthenticationResources(object):
 
         test_user_dict = {
             "username": "testuser",
-            "password": "testpw"
+            "password": "testpw",
+            "reCaptchaResponse": "asd"
         }
 
         requests.post('http://127.0.0.1:{}/register'.format(cls.PORT), json=test_user_dict)
@@ -42,7 +42,8 @@ class TestAuthenticationResources(object):
     def test_register_and_login_ok(self):
         test_user_dict = {
             "username": "testuser2",
-            "password": "testpw2"
+            "password": "testpw2",
+            "reCaptchaResponse": "asd"
         }
 
         requests.post('http://127.0.0.1:{}/register'.format(self.PORT), json=test_user_dict)
@@ -57,18 +58,21 @@ class TestAuthenticationResources(object):
         assert refresh_token_response.status_code == 401
 
     def test_refresh_token_unauthorized_with_access_token(self):
-        refresh_token_response = requests.get('http://127.0.0.1:{}/refresh-token'.format(self.PORT), headers=self.headers)
+        refresh_token_response = requests.get('http://127.0.0.1:{}/refresh-token'.format(self.PORT),
+                                              headers=self.headers)
         assert refresh_token_response.status_code == 422
 
     def test_refresh_token_ok(self):
-        refresh_token_response = requests.get('http://127.0.0.1:{}/refresh-token'.format(self.PORT), headers=self.refresh_headers)
+        refresh_token_response = requests.get('http://127.0.0.1:{}/refresh-token'.format(self.PORT),
+                                              headers=self.refresh_headers)
 
         assert refresh_token_response.status_code == 200
 
     def test_register_user_already_exist(self):
         test_user_dict = {
             "username": "testuser3",
-            "password": "testpw3"
+            "password": "testpw3",
+            "reCaptchaResponse": "asd"
         }
 
         requests.post('http://127.0.0.1:{}/register'.format(self.PORT), json=test_user_dict)
@@ -79,14 +83,16 @@ class TestAuthenticationResources(object):
     def test_login_unauthorized(self):
         test_user_dict = {
             "username": "testuser4",
-            "password": "testpw4"
+            "password": "testpw4",
+            "reCaptchaResponse": "asd"
         }
 
         requests.post('http://127.0.0.1:{}/register'.format(self.PORT), json=test_user_dict)
 
         login_user_dict = {
             "username": "testuser4",
-            "password": "somethingelse"
+            "password": "somethingelse",
+            "reCaptchaResponse": "asd"
         }
 
         login_response = requests.post('http://127.0.0.1:{}/login'.format(self.PORT), json=login_user_dict)
@@ -122,7 +128,8 @@ class TestAuthenticationResources(object):
     def test_delete_account_user_does_not_exists(self):
         test_user_dict = {
             "username": "testuser5",
-            "password": "testpw5"
+            "password": "testpw5",
+            "reCaptchaResponse": "asd"
         }
 
         requests.post('http://127.0.0.1:{}/register'.format(self.PORT), json=test_user_dict)
@@ -149,7 +156,8 @@ class TestAuthenticationResources(object):
     def test_delete_account_ok(self):
         test_user_dict = {
             "username": "testuser6",
-            "password": "testpw6"
+            "password": "testpw6",
+            "reCaptchaResponse": "asd"
         }
 
         requests.post('http://127.0.0.1:{}/register'.format(self.PORT), json=test_user_dict)

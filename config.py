@@ -23,6 +23,11 @@ class DevelopmentConfig(Config):
     )
     JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(days=1)
     JWT_REFRESH_TOKEN_EXPIRES = datetime.timedelta(days=7)
+    RECAPTCHA_ENABLED = True
+
+    # official test keys. see: https://developers.google.com/recaptcha/docs/faq
+    RECAPTCHA_SITE_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
+    RECAPTCHA_SECRET_KEY = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe'
 
 
 class TestConfig(Config):
@@ -30,14 +35,19 @@ class TestConfig(Config):
     DEBUG = True
     TESTING = True
     SECRET_KEY = 'test'
-    JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(minutes=15)
-    JWT_REFRESH_TOKEN_EXPIRES = datetime.timedelta(days=14)
+    JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(seconds=10)
+    JWT_REFRESH_TOKEN_EXPIRES = datetime.timedelta(minutes=20)
     SQLALCHEMY_DATABASE_URI = "mysql+pymysql://{}:{}@{}/{}".format(
         os.getenv('MYSQL_USER', 'admin'),
         os.getenv('MYSQL_PASSWORD', 'admin'),
         os.getenv('MYSQL_HOST', 'localhost'),
         os.getenv('MYSQL_SCHEMA', 'test_db')
     )
+    RECAPTCHA_ENABLED = True
+
+    # official test keys. see: https://developers.google.com/recaptcha/docs/faq
+    RECAPTCHA_SITE_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
+    RECAPTCHA_SECRET_KEY = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe'
 
 
 class ProductionConfig(Config):
