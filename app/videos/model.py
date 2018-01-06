@@ -16,10 +16,12 @@ class Video(db.Model):
     title = db.Column(db.String(255), nullable=False)
     last_position = db.Column(db.Integer, nullable=False)
     duration = db.Column(db.Integer, nullable=False)
+    image_url = db.Column(db.String(255), nullable=True)
     children = db.relationship("User", secondary=users_videos)
 
-    def __init__(self, close_date, title, last_position, duration):
+    def __init__(self, close_date, title, last_position, duration, image_url):
         self.close_date = close_date
         self.title = title
         self.last_position = last_position
         self.duration = duration
+        self.image_url = image_url
