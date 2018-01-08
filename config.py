@@ -21,10 +21,11 @@ class DevelopmentConfig(Config):
     DEBUG = True
     SECRET_KEY = 'dev'
     SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://{}:{}@{}/{}".format(
-        os.getenv('POSTGRES_USER', 'admin'),
-        os.getenv('POSTGRES_PASSWORD', 'admin'),
+        url.username,
+        url.password,
         url.hostname,
-        os.getenv('POSTGRES_DB', 'dev_db')
+        url.port,
+        url.path[1:]
     )
     JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(days=1)
     JWT_REFRESH_TOKEN_EXPIRES = datetime.timedelta(days=7)
@@ -45,10 +46,11 @@ class TestConfig(Config):
     parse.uses_netloc.append("postgres")
     url = parse.urlparse(os.environ["DATABASE_URL"])
     SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://{}:{}@{}/{}".format(
-        os.getenv('POSTGRES_USER', 'admin'),
-        os.getenv('POSTGRES_PASSWORD', 'admin'),
+        url.username,
+        url.password,
         url.hostname,
-        os.getenv('POSTGRES_DB', 'test_db')
+        url.port,
+        url.path[1:]
     )
     RECAPTCHA_ENABLED = True
 
@@ -64,10 +66,11 @@ class ProductionConfig(Config):
     parse.uses_netloc.append("postgres")
     url = parse.urlparse(os.environ["DATABASE_URL"])
     SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://{}:{}@{}/{}".format(
-        os.getenv('POSTGRES_USER', 'admin'),
-        os.getenv('POSTGRES_PASSWORD', 'admin'),
+        url.username,
+        url.password,
         url.hostname,
-        os.getenv('POSTGRES_DB', 'dev_db')
+        url.port,
+        url.path[1:]
     )
     SECRET_KEY = os.getenv('SECRET_KEY')
     RECAPTCHA_ENABLED = True
