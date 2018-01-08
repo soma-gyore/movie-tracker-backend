@@ -114,6 +114,3 @@ prod-docker-compose.yml
 
 # file contains docker run commands
 docker-run-commands.txt
-
-# migrations folder (one can generate with python manage.py db init)
-migrations

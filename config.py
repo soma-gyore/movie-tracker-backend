@@ -20,7 +20,7 @@ class DevelopmentConfig(Config):
 
     DEBUG = True
     SECRET_KEY = 'dev'
-    SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://{}:{}@{}/{}".format(
+    SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://{}:{}@{}:{}/{}".format(
         url.username,
         url.password,
         url.hostname,
@@ -45,7 +45,7 @@ class TestConfig(Config):
     JWT_REFRESH_TOKEN_EXPIRES = datetime.timedelta(minutes=20)
     parse.uses_netloc.append("postgres")
     url = parse.urlparse(os.environ["DATABASE_URL"])
-    SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://{}:{}@{}/{}".format(
+    SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://{}:{}@{}:{}/{}".format(
         url.username,
         url.password,
         url.hostname,
@@ -65,7 +65,7 @@ class ProductionConfig(Config):
     JWT_REFRESH_TOKEN_EXPIRES = datetime.timedelta(days=14)
     parse.uses_netloc.append("postgres")
     url = parse.urlparse(os.environ["DATABASE_URL"])
-    SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://{}:{}@{}/{}".format(
+    SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://{}:{}@{}:{}/{}".format(
         url.username,
         url.password,
         url.hostname,
