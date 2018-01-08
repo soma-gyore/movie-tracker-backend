@@ -1,5 +1,7 @@
 import datetime
 import os
+import psycopg2
+from urllib import parse
 
 
 class Config(object):
@@ -13,13 +15,16 @@ class Config(object):
 
 class DevelopmentConfig(Config):
     """Configurations for Development."""
+    parse.uses_netloc.append("postgres")
+    url = parse.urlparse(os.environ["DATABASE_URL"])
+
     DEBUG = True
     SECRET_KEY = 'dev'
-    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://{}:{}@{}/{}".format(
-        os.getenv('MYSQL_USER', 'admin'),
-        os.getenv('MYSQL_PASSWORD', 'admin'),
-        os.getenv('MYSQL_HOST', 'localhost'),
-        os.getenv('MYSQL_SCHEMA', 'dev_db')
+    SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://{}:{}@{}/{}".format(
+        os.getenv('POSTGRES_USER', 'admin'),
+        os.getenv('POSTGRES_PASSWORD', 'admin'),
+        url.hostname,
+        os.getenv('POSTGRES_DB', 'dev_db')
     )
     JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(days=1)
     JWT_REFRESH_TOKEN_EXPIRES = datetime.timedelta(days=7)
@@ -37,11 +42,13 @@ class TestConfig(Config):
     SECRET_KEY = 'test'
     JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(seconds=10)
     JWT_REFRESH_TOKEN_EXPIRES = datetime.timedelta(minutes=20)
-    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://{}:{}@{}/{}".format(
-        os.getenv('MYSQL_USER', 'admin'),
-        os.getenv('MYSQL_PASSWORD', 'admin'),
-        os.getenv('MYSQL_HOST', 'localhost'),
-        os.getenv('MYSQL_SCHEMA', 'test_db')
+    parse.uses_netloc.append("postgres")
+    url = parse.urlparse(os.environ["DATABASE_URL"])
+    SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://{}:{}@{}/{}".format(
+        os.getenv('POSTGRES_USER', 'admin'),
+        os.getenv('POSTGRES_PASSWORD', 'admin'),
+        url.hostname,
+        os.getenv('POSTGRES_DB', 'test_db')
     )
     RECAPTCHA_ENABLED = True
 
@@ -54,6 +61,16 @@ class ProductionConfig(Config):
     """Configurations for Production."""
     JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(minutes=15)
     JWT_REFRESH_TOKEN_EXPIRES = datetime.timedelta(days=14)
+    parse.uses_netloc.append("postgres")
+    url = parse.urlparse(os.environ["DATABASE_URL"])
+    SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://{}:{}@{}/{}".format(
+        os.getenv('POSTGRES_USER', 'admin'),
+        os.getenv('POSTGRES_PASSWORD', 'admin'),
+        url.hostname,
+        os.getenv('POSTGRES_DB', 'dev_db')
+    )
+    SECRET_KEY = os.getenv('SECRET_KEY')
+    RECAPTCHA_ENABLED = True
 
 
 app_config = {
@@ -66,5 +83,5 @@ app_config = {
 def configure_app(app):
     config_name = os.getenv('FLASK_CONFIGURATION', 'testing')
     app.config.from_object(app_config[config_name])
-    if config_name == 'production':
-        app.config.from_pyfile('instance/config.py')
+    # if config_name == 'production':
+    #     app.config.from_pyfile('instance/config.py')

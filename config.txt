@@ -1,2 +1,2 @@
 http://127.0.0.1:5000/videos
-<YOUR_API_KEY>
+wwlGexDLagNDLvNYDd9QLvXO23G2SXaY

@@ -54,8 +54,8 @@ class TestVideoController(object):
 
         fetched_videos = self.video_controller.get_videos_by_username(self.user_obj.username)
 
-        fetched_videos[0]['closeTimeStamp'] = fetched_videos[0].pop('closeDate').timestamp()
-
+        fetched_videos[0]['closeTimeStamp'] = int(fetched_videos[0].pop('closeDate').timestamp())
+        del fetched_videos[0]['imageUrl']
         assert fetched_videos[0] == self.sample_video_dict
 
     def test_get_videos_by_username(self):
@@ -67,6 +67,9 @@ class TestVideoController(object):
         fetched_videos = self.video_controller.get_videos_by_username('testuser')
 
         self.replace_close_date_to_close_time_stamp(fetched_videos)
+
+        for fetched_video in fetched_videos:
+            del fetched_video['imageUrl']
 
         assert fetched_videos == self.sample_videos
 

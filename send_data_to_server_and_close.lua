@@ -1,16 +1,13 @@
--- When will this be over?
--- Simple extension which displays the time when the current media will be finished playing
-
 def_hotkey=113 -- q key
 -- Extension description
 function descriptor()
     return { 
-		title = "Write to file and quit" ;
+	title = "Send data to the server and quit";
         version = "1.0" ;
         author = "Soma Gyore" ;
         url = 'http://';
-        shortdesc = "Displays the time when the current media will be finished playing";
-        description = "Displays the time when the current media will be finished playing" ;
+        shortdesc = "Send data to the server and quit";
+        description = "Send data to the server and quit" ;
         capabilities = { }
 	}
 end

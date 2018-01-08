@@ -2,7 +2,7 @@ FROM python:3.6-slim
 
 EXPOSE 5001
 
-COPY ./requirements.txt /opt/movie-tracker/requirements.txt
+COPY . /opt/movie-tracker
 
 WORKDIR /opt/movie-tracker
 

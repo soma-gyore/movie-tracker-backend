@@ -8,15 +8,6 @@ class VideoController(object):
         self.video_dict = {}
         self.image_scraper = ImageScraper()
 
-    def user_object_to_dict(self):
-        self.video_dict = {
-            "id": self.video_object.id,
-            "closeDate": self.video_object.close_date,
-            "title": self.video_object.title,
-            "lastPosition": self.video_object.last_position,
-            "duration": self.video_object.duration
-        }
-
     def create_video(self, video_dict, user_obj):
         from .model import Video
         from application import db
@@ -50,6 +41,7 @@ class VideoController(object):
     @staticmethod
     def video_obj_to_dict(video_obj):
         video_dict = {
+            'imageUrl': video_obj.image_url,
             'closeDate': video_obj.close_date,
             'title': video_obj.title,
             'lastPosition': video_obj.last_position,

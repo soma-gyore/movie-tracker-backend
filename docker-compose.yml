@@ -3,28 +3,27 @@ version: '2.1'
 services:
   db_movie_tracker:
     container_name: db_movie_tracker
-    image: mysql:5.7
+    image: postgres:10.1-alpine
     restart: on-failure
-    environment:
-      - MYSQL_DATABASE=test_db
-      - MYSQL_USER=admin
-      - MYSQL_PASSWORD=admin
-      - MYSQL_ROOT_PASSWORD=root
     healthcheck:
-      test: "/usr/bin/mysql --user=root --password=root --execute \"SHOW DATABASES;\""
-    ports:
-      - "3306:3306"
-
-  app_movie_tracker:
-    container_name: app_movie_tracker
-    depends_on:
-      db_movie_tracker:
-        condition: service_healthy
-    build: .
+      test: ["CMD", "pg_isready", "-d", "test_db", "-h", "127.0.0.1", "-p", "5432", "-U", "admin"]
     environment:
-      - MYSQL_HOST=db_movie_tracker
-      - FLASK_CONFIGURATION=testing
-    volumes:
-      - ../movie-tracker-backend:/opt/movie-tracker
+      - POSTGRES_DB=test_db
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
     ports:
-      - "5001:5001"
+      - "5432:5432"
+
+#  app_movie_tracker:
+#    container_name: app_movie_tracker
+#    image: .
+#    depends_on:
+#      db_movie_tracker:
+#        condition: service_healthy
+#    environment:
+#      - POSTGRES_DB=db_movie_tracker
+#      - FLASK_CONFIGURATION=testing
+#    ports:
+#      - "5001:5001"
+
+

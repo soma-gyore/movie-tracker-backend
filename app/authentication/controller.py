@@ -64,7 +64,7 @@ class UserController(object):
         from application import bcrypt
 
         username, password = user_dict['username'], user_dict['password']
-        password_hash = bcrypt.generate_password_hash(password)
+        password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
 
         new_user_obj = User(username, password_hash)
         db.session.add(new_user_obj)
