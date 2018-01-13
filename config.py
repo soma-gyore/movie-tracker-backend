@@ -16,7 +16,7 @@ class Config(object):
 class DevelopmentConfig(Config):
     """Configurations for Development."""
     parse.uses_netloc.append("postgres")
-    url = parse.urlparse(os.environ["DATABASE_URL"])
+    url = parse.urlparse(os.getenv("DATABASE_URL"))
 
     DEBUG = True
     SECRET_KEY = 'dev'
@@ -44,7 +44,7 @@ class TestConfig(Config):
     JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(seconds=10)
     JWT_REFRESH_TOKEN_EXPIRES = datetime.timedelta(minutes=20)
     parse.uses_netloc.append("postgres")
-    url = parse.urlparse(os.environ["DATABASE_URL"])
+    url = parse.urlparse(os.getenv("DATABASE_URL"))
     SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://{}:{}@{}:{}/{}".format(
         url.username,
         url.password,
@@ -64,7 +64,7 @@ class ProductionConfig(Config):
     JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(minutes=15)
     JWT_REFRESH_TOKEN_EXPIRES = datetime.timedelta(days=14)
     parse.uses_netloc.append("postgres")
-    url = parse.urlparse(os.environ["DATABASE_URL"])
+    url = parse.urlparse(os.getenv("DATABASE_URL"))
     SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://{}:{}@{}:{}/{}".format(
         url.username,
         url.password,
@@ -74,6 +74,9 @@ class ProductionConfig(Config):
     )
     SECRET_KEY = os.getenv('SECRET_KEY')
     RECAPTCHA_ENABLED = True
+
+    RECAPTCHA_SITE_KEY = os.getenv('RECAPTCHA_SITE_KEY')
+    RECAPTCHA_SECRET_KEY = os.getenv('RECAPTCHA_SECRET_KEY')
 
 
 app_config = {

@@ -6,7 +6,7 @@ services:
     image: postgres:10.1-alpine
     restart: on-failure
     healthcheck:
-      test: ["CMD", "pg_isready", "-d", "test_db", "-h", "127.0.0.1", "-p", "5432", "-U", "admin"]
+      test: "pg_isready -d test_db -h 127.0.0.1 -p 5432 -U admin"
     environment:
       - POSTGRES_DB=test_db
       - POSTGRES_USER=admin
@@ -14,16 +14,16 @@ services:
     ports:
       - "5432:5432"
 
-#  app_movie_tracker:
-#    container_name: app_movie_tracker
-#    image: .
-#    depends_on:
-#      db_movie_tracker:
-#        condition: service_healthy
-#    environment:
-#      - POSTGRES_DB=db_movie_tracker
-#      - FLASK_CONFIGURATION=testing
-#    ports:
-#      - "5001:5001"
+  app_movie_tracker:
+    container_name: app_movie_tracker
+    build: .
+    depends_on:
+      db_movie_tracker:
+        condition: service_healthy
+    environment:
+      - DATABASE_URL=postgres://admin:admin@db_movie_tracker:5432/test_db
+      - FLASK_CONFIGURATION=testing
+    ports:
+      - "5001:5001"
 
 
